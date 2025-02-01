@@ -1,0 +1,132 @@
+<% layout("/layouts/bolierplate") %>
+
+    <body>
+        
+        <div class="row mt-3">
+            <div class="col-8 offset-2">
+
+                <h2>
+                    <%=listingid.title%>
+                </h2>
+            </div>
+            <div class="card col-6 offset-2 listing-card">
+                <img src="<%=listingid.image.url %>" class="card-img-top show-img" alt="...">
+                <div class="card-body">
+                    <h1><i> Owner=<%=listingid.owner.username %></i></h1>
+                    <%= listingid.description %>
+                        <br>
+
+                        &#8377;<%= listingid.price.toLocaleString("en-IN") %>
+                            <br>
+                            <%= listingid.location %>
+                                <br>
+                                <%= listingid.country %>
+                                    </p>
+                </div>
+
+            </div>
+
+            <br>
+            <% if(currentUser && currentUser._id.equals(listingid.owner._id)) {%>
+                <div class="btns">
+                    <a href="/listings/<%=listingid._id %>/edit" class=" btn btn-dark col-1 offset-2">edit</a>
+
+                    <form method="post" action="/listings/<%=listingid._id%>?_method=delete">
+                        <button class="btn btn-dark offset-4">delete?</button>
+                    </form>
+                </div>
+                <% } %>
+
+                    <div class="col-8 offset-2 mb-3">
+                        <hr>
+                        <% if(currentUser) {%>
+                            <h2>Leave a Review</h2>
+
+                            <form action="/listings/<%=listingid.id %>/reviews" method="post" novalidate
+                                class="needs-validation">
+
+ <div class="col-8 offset-2 mb-3">
+<label for="rating" class="form-label">Rating</label>
+<fieldset class="starability-slot">
+
+
+ <input  type="radio"  id="no-rate"class="input-no-rate"  name="review[rating]"   value="1" checked  aria-label="No rating." />
+  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                          <label for="first-rate1" title="Terrible">1 star</label>
+    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+   <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                   <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+           <label for="first-rate4" title="Very good">4 stars</label>
+   <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+         <label for="first-rate5" title="Amazing">5 stars</label>
+                                    </fieldset>
+                                 
+                                   
+  </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="comments" class="form-label">comments</label>
+                                    <textarea name="review[comments]" id="comments" cols="15" rows="4"
+                                        class="form-constrol" required></textarea>
+                                    <div class="invalid-feedback">please enter comment</div>
+                                </div>
+
+                                <button class="btn btn-outline-dark">summit
+                                </button>
+                            </form>
+                    </div>
+                    <% } %>
+                        <hr>
+                      
+                        <% if(listingid.reviews.length>0) {%>
+                        <div class="row ">
+                            <h2>All reviews</h2>
+                            <% for(review of listingid.reviews) {%>
+
+                                <div class="card col-5 mb-3 ms-2">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@<%=review.author.username%>
+                                        </h5>
+                                        <p class="card-text">
+                                            <%= review.comments %>
+                                        </p>
+                                        <br>
+
+                                        <p class="starability-result card-text" data-rating="<%= review.rating %>">
+                                                Starts
+                                        </p>
+                                        <form
+                                            action="/listings/<%= listingid._id%>/reviews/<%= review._id%>?_method=delete"
+                                            class="mb-3" method="post">
+                                            <button class="btn btn-sm btn-dark">delete </button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                                <% } %>
+                            </div>
+                            <% } %>
+        </div>
+        <div class="col-8 offset-3 mb-3">
+            <h1>Where you'll are</h1>    
+            <div id="map"></div>
+            </div>
+        </div>
+        <script>
+            // Initialize the map and set its view to a specific location and zoom level
+            const map = L.map('map').setView([51.505, -0.09], 13); // [latitude, longitude], zoom level
+    
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+    
+            // Add a marker to the map
+            L.marker([51.505, -0.09]).addTo(map)
+                .bindPopup('A pretty popup.<br> Easily customizable.')
+                .openPopup();
+        </script>
+    </body>
