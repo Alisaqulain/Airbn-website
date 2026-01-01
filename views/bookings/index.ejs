@@ -1,0 +1,84 @@
+<% layout("/layouts/bolierplate") %>
+
+<div class="container mt-5">
+    <h1 class="mb-4"><i class="fa-solid fa-calendar-check"></i> My Bookings</h1>
+    
+    <% if (bookings.length === 0) { %>
+        <div class="alert alert-info text-center">
+            <h4>No bookings yet</h4>
+            <p>Start exploring amazing places to stay!</p>
+            <a href="/listings" class="btn btn-primary">Browse Listings</a>
+        </div>
+    <% } else { %>
+        <div class="row g-4">
+            <% for(let booking of bookings) { %>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title">
+                                        <a href="/listings/<%= booking.listing._id %>" class="text-decoration-none">
+                                            <%= booking.listing.title %>
+                                        </a>
+                                    </h5>
+                                    <p class="text-muted mb-2">
+                                        <i class="fa-solid fa-location-dot"></i> 
+                                        <%= booking.listing.location %><% if (booking.listing.country) { %>, <%= booking.listing.country %><% } %>
+                                    </p>
+                                </div>
+                                <span class="badge <%= booking.status === 'confirmed' ? 'bg-success' : booking.status === 'cancelled' ? 'bg-secondary' : 'bg-warning' %>">
+                                    <%= booking.status.charAt(0).toUpperCase() + booking.status.slice(1) %>
+                                </span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="mb-1">
+                                    <i class="fa-solid fa-calendar-days"></i> 
+                                    <strong>Check-in:</strong> <%= new Date(booking.checkIn).toLocaleDateString() %>
+                                </p>
+                                <p class="mb-1">
+                                    <i class="fa-solid fa-calendar-days"></i> 
+                                    <strong>Check-out:</strong> <%= new Date(booking.checkOut).toLocaleDateString() %>
+                                </p>
+                                <p class="mb-0">
+                                    <i class="fa-solid fa-users"></i> 
+                                    <strong>Guests:</strong> <%= booking.guests %>
+                                </p>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="h5 mb-0">₹<%= booking.totalPrice.toLocaleString("en-IN") %></p>
+                                    <small class="text-muted">Total amount</small>
+                                </div>
+                                <div>
+                                    <a href="/bookings/<%= booking._id %>" class="btn btn-outline-primary btn-sm me-2">
+                                        View Details
+                                    </a>
+                                    <% if (booking.status === 'confirmed') { %>
+                                        <% 
+                                            const today = new Date();
+                                            today.setHours(0, 0, 0, 0);
+                                            const checkInDate = new Date(booking.checkIn);
+                                        %>
+                                        <% if (checkInDate >= today) { %>
+                                            <form action="/bookings/<%= booking._id %>/cancel" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this booking?');">
+                                                    Cancel
+                                                </button>
+                                            </form>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+</div>
+

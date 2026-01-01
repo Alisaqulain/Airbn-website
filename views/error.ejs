@@ -1,10 +1,20 @@
 <% layout("/layouts/bolierplate") %>
-    <div class="row ">
-        <div class="alert alert-danger col-6 offset-3" role="alert">
-             <h4>
-               
-            <%= message %>
-            </h4> 
-            
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">
+                    <% if (typeof statusCode !== 'undefined') { %>
+                        Error <%= statusCode %>
+                    <% } else { %>
+                        Error
+                    <% } %>
+                </h4>
+                <p class="mb-0"><%= message %></p>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/listings" class="btn btn-primary">Go to Home</a>
+            </div>
         </div>
     </div>
+</div>

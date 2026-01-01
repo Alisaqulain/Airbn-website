@@ -1,0 +1,314 @@
+<% layout("/layouts/bolierplate") %>
+
+<style>
+.landing-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.landing-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.landing-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+.search-box {
+    background: white;
+    border-radius: 50px;
+    padding: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    max-width: 700px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 15px 25px;
+    font-size: 1rem;
+    border-radius: 50px;
+}
+
+.search-box button {
+    background: var(--airbnb-red);
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-box button:hover {
+    background: #e61e4d;
+}
+
+.features-section {
+    padding: 80px 0;
+    background: white;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 30px;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: var(--airbnb-red);
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--airbnb-dark);
+}
+
+.feature-card p {
+    color: var(--airbnb-gray);
+    line-height: 1.6;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #ff385c 0%, #ff6b9d 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+.btn-cta {
+    background: white;
+    color: var(--airbnb-red);
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-cta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    color: var(--airbnb-red);
+}
+
+.popular-listings {
+    padding: 80px 0;
+    background: var(--airbnb-light-gray);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--airbnb-dark);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .search-box {
+        flex-direction: column;
+        border-radius: 12px;
+    }
+    
+    .search-box input,
+    .search-box button {
+        width: 100%;
+        border-radius: 12px;
+        margin: 5px 0;
+    }
+    
+    .cta-section h2 {
+        font-size: 2rem;
+    }
+}
+</style>
+
+<!-- Hero Section -->
+<section class="landing-hero">
+    <div class="container">
+        <div class="landing-hero-content text-center">
+            <h1 class="hero-title">Find your next adventure</h1>
+            <p class="hero-subtitle">Discover unique places to stay and experiences around the world</p>
+            <form action="/listings" method="GET" class="search-box mx-auto">
+                <input type="text" name="search" placeholder="Where are you going?" class="border-0">
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i> Search
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <h3>Explore the World</h3>
+                    <p>Browse through thousands of unique accommodations in destinations around the globe. From cozy apartments to luxury villas.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3>Book with Confidence</h3>
+                    <p>Secure booking system with instant confirmation. Your payment is protected, and you can cancel with ease.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <h3>Trusted Reviews</h3>
+                    <p>Read authentic reviews from real guests. Our rating system helps you make the best choice for your stay.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Listings Preview -->
+<% if (typeof featuredListings !== 'undefined' && featuredListings.length > 0) { %>
+<section class="popular-listings">
+    <div class="container">
+        <h2 class="section-title">Popular Destinations</h2>
+        <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4">
+            <% for(let listing of featuredListings.slice(0, 4)){ %>
+                <div class="col">
+                    <a href="/listings/<%= listing._id %>" class="text-decoration-none listing-links">
+                        <div class="card h-100 listing-card shadow-sm">
+                            <img src="<%=listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" style="height: 20rem; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title text-dark"><%= listing.title %></h5>
+                                <p class="card-text text-muted mb-2">
+                                    <i class="fa-solid fa-location-dot"></i> 
+                                    <%= listing.location %><% if (listing.country) { %>, <%= listing.country %><% } %>
+                                </p>
+                                <p class="card-text mb-0">
+                                    <strong class="text-dark">₹<%= listing.price.toLocaleString("en-IN") %></strong>
+                                    <span class="text-muted">/night</span>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% } %>
+        </div>
+        <div class="text-center mt-5">
+            <a href="/listings" class="btn btn-primary btn-lg">
+                View All Listings <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+<% } %>
+
+<!-- Call to Action -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Ready to start your journey?</h2>
+        <p>Join thousands of travelers discovering amazing places around the world</p>
+        <% if (!currentUser) { %>
+            <a href="/signup" class="btn-cta">Get Started</a>
+        <% } else { %>
+            <a href="/listings" class="btn-cta">Explore Listings</a>
+        <% } %>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5" style="background: white;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-4">
+                <h2 class="text-primary">1000+</h2>
+                <p class="text-muted">Properties</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <h2 class="text-primary">50+</h2>
+                <p class="text-muted">Countries</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <h2 class="text-primary">10K+</h2>
+                <p class="text-muted">Happy Guests</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <h2 class="text-primary">4.8★</h2>
+                <p class="text-muted">Average Rating</p>
+            </div>
+        </div>
+    </div>
+</section>
+

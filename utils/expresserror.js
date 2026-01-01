@@ -1,9 +1,12 @@
-// alert("error")
 class ExpressError extends Error {
-    constructor(statuscode, message) {
+    constructor(statusCode, message) {
         super();
-        this.statuscode = statuscode;
+        this.statusCode = statusCode;
+        this.statuscode = statusCode; // Keep for backward compatibility
         this.message = message;
+        this.name = this.constructor.name;
+        Error.captureStackTrace(this, this.constructor);
     }
 }
-module.exports = ExpressError
+
+module.exports = ExpressError;

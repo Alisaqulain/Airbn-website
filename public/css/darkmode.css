@@ -1,0 +1,73 @@
+/* Dark Mode Styles */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --card-bg: #ffffff;
+    --border-color: #dee2e6;
+    --input-bg: #ffffff;
+    --navbar-bg: #ffffff;
+}
+
+.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --card-bg: #2d2d2d;
+    --border-color: #404040;
+    --input-bg: #333333;
+    --navbar-bg: #242424;
+}
+
+.dark-mode body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.dark-mode .navbar {
+    background-color: var(--navbar-bg) !important;
+    border-bottom-color: var(--border-color) !important;
+}
+
+.dark-mode .card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.dark-mode .form-control,
+.dark-mode .form-select {
+    background-color: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.dark-mode .alert {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.dark-mode .text-muted {
+    color: #b0b0b0 !important;
+}
+
+.dark-mode .text-dark {
+    color: var(--text-color) !important;
+}
+
+.dark-mode .btn-outline-primary,
+.dark-mode .btn-outline-secondary {
+    border-color: var(--border-color);
+}
+
+.dark-mode .listing-card {
+    background-color: var(--card-bg);
+}
+
+.dark-mode .filter-section {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.dark-mode #map {
+    filter: brightness(0.8) contrast(1.2);
+}
+

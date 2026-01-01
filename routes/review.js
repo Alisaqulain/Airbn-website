@@ -8,58 +8,48 @@ const Listing = require("../models/listing.js")
 
 //const {validateReview,isloggedin} = require("../midleware.js")
 
-const { isloggedin, validatelisting, isauthor } = require("../midleware.js");
+const { isloggedin, isauthor } = require("../midleware.js");
+
 const validateReview = (req, res, next) => {    
     let { error } = reviewSchema.validate(req.body);    
     if(error){
-        let errMsg = error.details.map(el => el.message).join(",");
-        throw new ExpressError(404,errMsg)
+        let errMsg = error.details.map(el => el.message).join(", ");
+        throw new ExpressError(400, errMsg);
     }
     next();
 }
-//post review route
-const isowner=async(req,res,next)=>{
-    let {id}=req.params;
-
-    let listing=await Listing.findById(id);
-    console.log(listing)  
-    console.log(res.locals.currentUser._id)
-    if(!listing.owner._id.equals(res.locals.currentUser._id))
-    {
-
-        req.flash("error","Sorry You Don't Have Permission")
-        return  res.redirect(`/listings/${id}`)
-    }
-    next();
-}
-router.post("/",isloggedin,validateReview,
-  wrapAsync(async (req, res) => {
-
-
-        let listing = await Listing.findById(req.params.id)
-        let newReview = new Review(req.body.review);
-        newReview.author = req.user._id
-        console.log(newReview)
+router.post("/", isloggedin, validateReview,
+    wrapAsync(async (req, res) => {
+        const listing = await Listing.findById(req.params.id);
+        if (!listing) {
+            req.flash("error", "Listing not found");
+            return res.redirect("/listings");
+        }
+        
+        const newReview = new Review(req.body.review);
+        newReview.author = req.user._id;
         listing.reviews.push(newReview);
         await newReview.save();
         await listing.save();
-        req.flash("success", "review added");
-        res.redirect(`/listings/${listing._id}`)
-    }))
+        req.flash("success", "Review added successfully");
+        res.redirect(`/listings/${listing._id}`);
+    })
+)
 //delete review route
-router.delete(
-
-    "/:reviewId",isloggedin,
-    isauthor,
+router.delete("/:reviewId", isloggedin, isauthor,
     wrapAsync(async (req, res) => {
-
         const { id, reviewId } = req.params;
-
+        
+        const listing = await Listing.findById(id);
+        if (!listing) {
+            req.flash("error", "Listing not found");
+            return res.redirect("/listings");
+        }
+        
         await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
         await Review.findByIdAndDelete(reviewId);
-        req.flash("success", "review deleted");
-        res.redirect(`/listings/${id}`)
-
+        req.flash("success", "Review deleted successfully");
+        res.redirect(`/listings/${id}`);
     })
 );
 module.exports = router;
